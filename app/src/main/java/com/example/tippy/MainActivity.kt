@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipAmount:TextView
     private lateinit var  tvTotalAmount:TextView
     private  lateinit var tvTipDescription:TextView
+    private lateinit var etNoOfPple: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         tvTipAmount = findViewById(R.id.tvTipAmount)
         tvTotalAmount = findViewById(R.id.tvTotalAmount)
         tvTipDescription = findViewById(R.id.tvTipDescription)
+        etNoOfPple = findViewById(R.id.etNoOfPple)
 
         seekBarTip.progress= INITIAL_TIP_PERCENT
         tvTipPercentLabel.text ="$INITIAL_TIP_PERCENT%"
@@ -59,7 +62,18 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+        etNoOfPple.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+              Log.i(TAG, "afterTextChanged Number of People $s")
+            }
+
+        })
     }
+
 
     private fun updateTipDescription(tipPercent: Int) {
         //when is the equivalent of switch in java
@@ -91,10 +105,14 @@ class MainActivity : AppCompatActivity() {
             tvTotalAmount.text=""
             return
         }
+
         //Get value of the base and tip
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipPercent = seekBarTip.progress
+
+
         // compute tip and total
+
         val tipAmount =baseAmount * tipPercent/100
         val totalAmount = baseAmount +tipAmount
 
